@@ -3,7 +3,7 @@ import db from "../db/connection";
 
 const Rol = db.define('rol', {
  
-    idrrol : {
+    idrol : {
       type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true

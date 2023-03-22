@@ -1,9 +1,15 @@
 import { Request, Response } from 'express';
+import Rol from '../models/rol';
 import Usuario from '../models/usuario';
 
 export const getUsuarios = async (req: Request, res: Response) => {
 
-  const users = await Usuario.findAll();
+  const users = await Usuario.findAll({
+    attributes: ['nombre', 'email', 'foto', 'idrol'],
+    include: [{
+      model: Rol
+    }]
+  });
 
   res.json({
       msg: 'getusuarios',

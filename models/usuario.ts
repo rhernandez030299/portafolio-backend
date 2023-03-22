@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import db from "../db/connection";
+import Rol from "./rol";
 
 const Usuario = db.define('usuario', {
   
@@ -34,6 +35,10 @@ const Usuario = db.define('usuario', {
   }
 }, {
   tableName: 'usuario'
+})
+
+Usuario.belongsTo(Rol,{
+  foreignKey:"idrol"
 })
 
 export default Usuario;

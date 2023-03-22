@@ -3,5 +3,5 @@ import Server from './models/server';
 
 dotenv.config();
 
-const serverInstance = new Server();;
+const serverInstance = new Server();
 serverInstance.listen();

@@ -12,9 +12,8 @@ const UsuarioRed = db.define('usuario_red', {
   },
 
   idusuario: {
-    type: DataTypes.BIGINT,
-    
-},
+    type: DataTypes.BIGINT,  
+  },
 
   idred: {
     type: DataTypes.BIGINT
