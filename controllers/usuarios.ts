@@ -1,6 +1,7 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import Rol from '../models/rol';
 import Usuario from '../models/usuario';
+import { usuarioSchema } from '../validate/usuarioSchema';
 
 export const getUsuarios = async (req: Request, res: Response) => {
 
@@ -36,13 +37,29 @@ export const getUsuario = async (req: Request, res: Response) => {
   }
 }
 
-export const postUsuario = (req: Request, res: Response) => {  
-  const { body } = req;
+export const postUsuario = async (req: Request, res: Response, next: NextFunction) => {  
 
-  res.json({
-      msg: 'post usarios',
-      body
-  })
+  try {
+    const { body } = req;
+
+    const filename = req.file?.filename;
+    
+    await usuarioSchema.validate(body);
+  
+    body.idrol = 1;
+    body.foto = filename;
+    
+    const response = await Usuario.create(body);
+  
+    res.json({
+        msg: 'post usarios',
+        body
+    }) 
+  } catch (error: any) {
+    next(error);
+    // return res.status(500).json({type: error.name, message: error.message})
+  }
+  
 }
 
 export const putUsuario = (req: Request, res: Response) => {

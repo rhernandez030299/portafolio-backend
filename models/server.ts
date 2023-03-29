@@ -2,6 +2,7 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import db from '../db/connection';
 import userRoutes from '../routes/usuarios';
+import { errorHandler } from '../middlewares/errorHandler';
 
 class Server {
   private app: Application;
@@ -16,6 +17,7 @@ class Server {
     this.dbConnection();
     this.middlewares();
     this.routes();
+    this.app.use( errorHandler );
   }
 
   async dbConnection() {
@@ -28,8 +30,10 @@ class Server {
   }
 
   middlewares(){
+    
     this.app.use( express.json() );
     this.app.use( cors() );
+    this.app.use( '/uploads', express.static('uploads') )
   }
 
   routes(){
