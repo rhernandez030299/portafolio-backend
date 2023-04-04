@@ -6,7 +6,7 @@ import { usuarioSchema } from '../validate/usuarioSchema';
 export const getUsuarios = async (req: Request, res: Response) => {
 
   const users = await Usuario.findAll({
-    attributes: ['nombre', 'email', 'foto', 'idrol'],
+    attributes: ['idusuario', 'nombre', 'email', 'foto', 'idrol'],
     include: [{
       model: Rol
     }]
@@ -74,9 +74,15 @@ export const putUsuario = (req: Request, res: Response) => {
   })
 }
 
-export const deleteUsuario = (req: Request, res: Response) => {
+export const deleteUsuario = async(req: Request, res: Response) => {
 
   const { id } = req.params;
+
+  await Usuario.destroy({
+    where: {
+      idusuario: id
+    }
+  });
 
   res.json({
       msg: 'delete usuarios',
