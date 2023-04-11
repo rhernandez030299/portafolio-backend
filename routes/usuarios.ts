@@ -7,7 +7,7 @@ const router = Router();
 router.get('/', getUsuarios);
 router.get('/:id', getUsuario);
 router.post('/', upload.single('file'), postUsuario);
-router.put('/:id', putUsuario);
+router.put('/:id', upload.single('file'), putUsuario);
 router.delete('/:id', deleteUsuario);
 
 export default router;

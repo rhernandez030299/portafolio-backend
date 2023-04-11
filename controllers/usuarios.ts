@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import Rol from '../models/rol';
 import Usuario from '../models/usuario';
-import { usuarioSchema } from '../validate/usuarioSchema';
+import { usuarioSchema, usuarioSchemaActualizar } from '../validate/usuarioSchema';
 
 export const getUsuarios = async (req: Request, res: Response) => {
 
@@ -62,15 +62,28 @@ export const postUsuario = async (req: Request, res: Response, next: NextFunctio
   
 }
 
-export const putUsuario = (req: Request, res: Response) => {
+export const putUsuario = async (req: Request, res: Response) => {
 
   const { id } = req.params;
   const { body } = req;
 
+  const filename = req.file?.filename;
+  
+  body.idrol = 1;
+  body.foto = filename;
+
+  await usuarioSchemaActualizar.validate(body);
+  const usuarioActualizado = Usuario.update(body, {
+    where: {
+      idusuario: id
+    }
+  });
+
   res.json({
       msg: 'put usuarios',
       body,
-      id
+      id,
+      usuarioActualizado
   })
 }
 

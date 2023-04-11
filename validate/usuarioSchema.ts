@@ -10,3 +10,11 @@ export const usuarioSchema = yup.object().shape({
     edad: yup.number().required('Required'),
     idrol: yup.string().required(),
 })
+
+export const usuarioSchemaActualizar = yup.object().shape({
+  nombre: yup.string().required(),
+  email: yup.string().email().required(),
+  descripcion: yup.string().required('Required'),
+  edad: yup.number().required('Required'),
+  idrol: yup.string().required(),
+})
