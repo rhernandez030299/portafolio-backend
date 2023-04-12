@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import Rol from '../models/rol';
 import Usuario from '../models/usuario';
 import { usuarioSchema, usuarioSchemaActualizar } from '../validate/usuarioSchema';
+import bcryptjs from 'bcryptjs';
 
 export const getUsuarios = async (req: Request, res: Response) => {
 
@@ -43,12 +44,14 @@ export const postUsuario = async (req: Request, res: Response, next: NextFunctio
     const { body } = req;
 
     const filename = req.file?.filename;
-    
-    await usuarioSchema.validate(body);
-  
+
     body.idrol = 1;
     body.foto = filename;
     
+    await usuarioSchema.validate(body);
+  
+    const salt = bcryptjs.genSaltSync();
+    body.contrasenia = bcryptjs.hashSync( body.contrasenia, salt);
     const response = await Usuario.create(body);
   
     res.json({
