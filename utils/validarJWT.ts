@@ -12,7 +12,11 @@ const validarJWT = (req = request, res = response, next: () => void) => {
   }
 
   try {
-    jwt.verify( token, process.env.SECRETKEY || '' );
+    const resultToken: any = jwt.verify( token, process.env.SECRETKEY || '' );
+
+    req.body.uid = resultToken?.uid;
+    console.log('resultToken', resultToken);
+
     next();
   } catch (error) {
     return res.status(401).json({
